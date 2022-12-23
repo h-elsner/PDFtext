@@ -1,5 +1,5 @@
 # PDFtext
-Unter LINUX eine Textebene zu PDF-Dateien hinzufügen mit GUI
+**Unter LINUX eine Textebene zu PDF-Dateien hinzufügen mit GUI**
 
 
 Für die meisten Drucker gibt es unter LINUX keine vom Hersteller gelieferte Tools, um beim Einscannen von Dokumenten durchsuchbare PDF-Dateien zu erhalten. Die Texte werden immer nur als Bilder in den PDFs eingebettet. Das macht es schwierig später etwas Wichtiges wiederzufinden.
@@ -7,7 +7,7 @@ Natürlich gibt es auch unter LINUX entsprechende Tools, aber diese sind oft nur
 Deshalb hier eine einfache grafische Oberfläche, um diese Arbeit mit ein paar Klicks zu erledigen.
 ![Screenshot](/doc/Screenshot.png)
 
-Nutzung
+**Nutzung**
 
 Mit "Textebene anlegen" wird man aufgefordert, PDF-Dateien zum Bearbeiten auszuwählen. Man kann mehrere PDF-Dateien auswählen und alle mit einem Rutsch bearbeiten lassen.
 Es geht allerdings auch, PDF-Dateien zum Bearbeiten aus dem Dateimanager per Drag & Drop auf das Programmfenster zu ziehen.
