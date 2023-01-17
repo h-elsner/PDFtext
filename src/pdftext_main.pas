@@ -33,6 +33,9 @@ type
     procedure PDFAddText(fn: string);
   end;
 
+{$I pdftext_de.inc}
+{.$I pdftext_en.inc}
+
 var
   Form1: TForm1;
 
@@ -44,16 +47,6 @@ const
   pdfext='.pdf';
   trenner='===================================';
 
-  capForm='Textebene zu PDF hinzufügen mit "'+app+'"';
-  capAddTxt='&Textebene anlegen';
-  hntAddTxt='Eine oder mehrere PDF-Dateien auswählen.';
-  capInfo='&Info';
-  hntInfo='Infodatei anzeigen.';
-  errInfo='Datei "info.txt" fehlt.';
-  hntInstall='Bitte Vorgehensweise in LINUX-Welt 01/2023, Seite 104 nachlesen.';
-  capClose='&Beenden';
-  hntClose='Programm beenden.';
-  capOpenPDF='Eingescannte PDF-Dateien öffnen...';
 
 implementation
 
@@ -168,6 +161,7 @@ begin
   btnInfo.Hint:=hntInfo;
   btnClose.Caption:=capClose;
   btnClose.Hint:=hntClose;
+  Memo1.Hint:=hntMemo;
 end;
 
 procedure TForm1.btnCloseClick(Sender: TObject);     {Button Close}

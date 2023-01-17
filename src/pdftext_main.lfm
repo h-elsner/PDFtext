@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 1637
+  Left = 1565
   Height = 367
-  Top = 213
+  Top = 154
   Width = 620
   AllowDropFiles = True
   Caption = 'Form1'
@@ -13,7 +13,7 @@ object Form1: TForm1
   OnDropFiles = FormDropFiles
   Position = poDefaultPosOnly
   ShowHint = True
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.4.0'
   object btnAddTxt: TBitBtn
     Left = 16
     Height = 60
