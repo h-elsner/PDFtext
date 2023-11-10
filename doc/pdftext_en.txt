@@ -1,0 +1,26 @@
+LINUX: Add text layer to PDF files
+==================================
+
+Preparation: Install needed tools:
+----------------------------------
+* ImageMagick (often already part of the LINUX distribution)
+* pdfsandwich
+* tesseract-ocr
+
+    sudo apt install pdfsandwich tesseract-ocr-eng
+
+Give ImageMagick read|write rights for PDF files:
+-------------------------------------------------
+    sudo nano /etc/ImageMagick-6/policy.xml
+
+Replace line
+
+  <policy domain="coder" rights="none" pattern="PDF" />
+
+with
+
+  <policy domain="coder" rights="read|write" pattern="PDF" />
+
+and save.
+Done. PDFsandwich will create a new PDF file indicated with "_ocr" in the file name.
+

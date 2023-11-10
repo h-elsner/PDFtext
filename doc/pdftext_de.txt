@@ -1,0 +1,28 @@
+Unter LINUX eine Textebene zu PDF-Dateien hinzufügen
+====================================================
+
+Benötigte Programme installieren:
+---------------------------------
+* ImageMagick (sollte bereits installiert sein)
+* pdfsandwich
+* tesseract-ocr
+
+    sudo apt install pdfsandwich tesseract-ocr-deu
+
+ImageMagick das Recht geben, PDF-Dateien zu editieren:
+------------------------------------------------------
+    sudo nano /etc/ImageMagick-6/policy.xml
+
+Die Zeile
+
+  <policy domain="coder" rights="none" pattern="PDF" />
+
+mit
+
+  <policy domain="coder" rights="read|write" pattern="PDF" />
+
+überschreiben und speichern. Fertig.
+
+Das Ergebnis wird im gleichen Verzeichnis
+in eine Datei mit dem Zusatz "_ocr" geschrieben.
+
