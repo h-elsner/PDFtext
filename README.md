@@ -6,7 +6,7 @@ Für die meisten Drucker gibt es unter LINUX keine vom Hersteller gelieferte Too
 Natürlich gibt es auch unter LINUX entsprechende Tools, aber diese sind oft nur an der Kommandozeile zu bedienen. Das macht es für von grafischen Oberflächen verwöhnte Benutzer schwierig, damit zurecht zu kommen. Außerdem vergisst man ja oft die Befehle.
 Deshalb hier eine einfache grafische Oberfläche, um diese Arbeit mit ein paar Klicks zu erledigen.
 
-![Screenshot](/doc/Screenshot.png)
+![Screenshot](/doc/Screenshot_de.png)
 
 **Nutzung**
 
