@@ -1,3 +1,13 @@
+(* Unter LINUX eine Textebene zu PDF-Dateien hinzufügen
+
+Benötigte Programme installieren:
+---------------------------------
+* ImageMagick (sollte bei Ubuntu bereits installiert sein)
+* pdfsandwich                 http://www.tobias-elze.de/pdfsandwich/
+* tesseract-ocr               https://github.com/tesseract-ocr/tesseract/
+* tesseract language codes    https://tesseract-ocr.github.io/tessdoc/Data-Files-in-different-versions.html
+*)
+
 unit pdftext_main;
 
 {$mode objfpc}{$H+}
@@ -30,11 +40,11 @@ type
   private
 
   public
-    procedure PDFAddText(fn: string);
+    procedure PDFAddText(fn: string);                {Process one PDF file}
   end;
 
-{$I pdftext_de.inc}
-{.$I pdftext_en.inc}
+{.$I pdftext_de.inc}
+{$I pdftext_en.inc}
 
 var
   Form1: TForm1;
@@ -43,10 +53,8 @@ const
   infofile='pdftext.txt';
   app='pdfsandwich';
   paralang='-lang';
-  sprache='deu';
   pdfext='.pdf';
-  trenner='===================================';
-
+  separ='===================================';       {Visual separator for multiple files processed}
 
 implementation
 
@@ -54,7 +62,20 @@ implementation
 
 { TForm1 }
 
-procedure TForm1.PDFAddText(fn: string);
+procedure TForm1.FormCreate(Sender: TObject);        {GUI Initialization}
+begin
+  Memo1.Lines.Clear;
+  Caption:=capForm;
+  btnAddTxt.Caption:=capAddTxt;
+  btnAddTxt.Hint:=hntAddTxt;
+  btnInfo.Caption:=capInfo;
+  btnInfo.Hint:=hntInfo;
+  btnClose.Caption:=capClose;
+  btnClose.Hint:=hntClose;
+  Memo1.Hint:=hntMemo;
+end;
+
+procedure TForm1.PDFAddText(fn: string);             {Process one PDF file, TProcess}
 var
   pdftxt: TProcess;
   outlist: TStringList;
@@ -84,22 +105,29 @@ begin
   end;
 end;
 
-procedure TForm1.btnAddTxtClick(Sender: TObject);
+procedure TForm1.btnAddTxtClick(Sender: TObject);    {Button Create text layer to process
+                                                      files selected with open dialog}
 var
   i: Integer;
 
 begin
-  OpenDialog1.Title:=capOpenPDF;
+  OpenDialog1.Title:=capOpenPDF;                     {Option ofAllowMultiSelect must be set}
   if OpenDialog1.Execute then begin
     btnClose.Enabled:=false;
-    Memo1.Lines.Clear;
-    for i:=0 to OpenDialog1.Files.Count-1 do begin
-      PDFAddText(Opendialog1.Files[i]);
+    try
+      Memo1.Lines.Clear;                             {Empty protocol output}
+      for i:=0 to OpenDialog1.Files.Count-1 do begin
+        PDFAddText(Opendialog1.Files[i]);
+        Memo1.Lines.Add(separ);
+      end;
+      Memo1.Lines.Add('');
+    finally
+      btnClose.Enabled:=true;
     end;
-    btnClose.Enabled:=true;
   end;
 end;
 
+                                                     {Drag & Drop files to process}
 procedure TForm1.FormDropFiles(Sender: TObject; const FileNames: array of string);
 var
   i: integer;
@@ -108,34 +136,37 @@ var
 begin
   pdflist:=TStringList.Create;
   try
-    Memo1.Lines.Clear;
     for i:=0 to high(FileNames) do begin
-      if Lowercase(ExtractFileExt(FileNames[i]))=pdfext then begin
+      if Lowercase(ExtractFileExt(FileNames[i]))=pdfext then begin {Select only PDF files}
         pdflist.Add(FileNames[i]);
       end;
     end;
+    Memo1.Lines.Clear;
     if pdflist.Count>0 then begin
+      btnClose.Enabled:=false;
       for i:=0 to pdflist.Count-1 do begin
         PDFAddText(pdflist[i]);
-        Memo1.Lines.Add(trenner);
+        Memo1.Lines.Add(separ);
       end;
     end;
     Memo1.Lines.Add('');
   finally
+    btnClose.Enabled:=true;
     pdflist.Free;
     Screen.Cursor:=crDefault;
   end;
 end;
 
+                                                     {Change font size of text with ctrl+mousewheel}
 procedure TForm1.Memo1MouseWheelDown(Sender: TObject; Shift: TShiftState;
-  MousePos: TPoint; var Handled: Boolean);
+                                     MousePos: TPoint; var Handled: Boolean);
 begin
   if ssCtrl in Shift then
     Memo1.Font.Size:=Memo1.Font.Size-1;
 end;
 
 procedure TForm1.Memo1MouseWheelUp(Sender: TObject; Shift: TShiftState;
-  MousePos: TPoint; var Handled: Boolean);
+                                   MousePos: TPoint; var Handled: Boolean);
 begin
   if ssCtrl in Shift then
     Memo1.Font.Size:=Memo1.Font.Size+1;
@@ -146,22 +177,9 @@ begin
   if FileExists(Application.Location+infofile) then begin
     Memo1.Lines.LoadFromFile(Application.Location+infofile);
   end else begin
-    Memo1.Lines.Add(errInfo);
-    Memo1.Lines.Add(hntInstall);
+    Memo1.Lines.Add(infofile+errInfo);
+    Memo1.Lines.Add(hntInfofile);
   end;
-end;
-
-procedure TForm1.FormCreate(Sender: TObject);
-begin
-  Memo1.Lines.Clear;
-  Caption:=capForm;
-  btnAddTxt.Caption:=capAddTxt;
-  btnAddTxt.Hint:=hntAddTxt;
-  btnInfo.Caption:=capInfo;
-  btnInfo.Hint:=hntInfo;
-  btnClose.Caption:=capClose;
-  btnClose.Hint:=hntClose;
-  Memo1.Hint:=hntMemo;
 end;
 
 procedure TForm1.btnCloseClick(Sender: TObject);     {Button Close}

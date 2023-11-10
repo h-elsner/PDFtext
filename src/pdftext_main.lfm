@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 1565
-  Height = 367
-  Top = 154
+  Left = 1706
+  Height = 360
+  Top = 136
   Width = 620
   AllowDropFiles = True
   Caption = 'Form1'
-  ClientHeight = 367
+  ClientHeight = 360
   ClientWidth = 620
   Constraints.MinHeight = 360
   Constraints.MinWidth = 620
@@ -13,7 +13,7 @@ object Form1: TForm1
   OnDropFiles = FormDropFiles
   Position = poDefaultPosOnly
   ShowHint = True
-  LCLVersion = '2.2.4.0'
+  LCLVersion = '2.2.6.0'
   object btnAddTxt: TBitBtn
     Left = 16
     Height = 60
@@ -50,7 +50,7 @@ object Form1: TForm1
   end
   object Memo1: TMemo
     Left = 16
-    Height = 261
+    Height = 254
     Top = 92
     Width = 585
     Anchors = [akTop, akLeft, akRight, akBottom]
