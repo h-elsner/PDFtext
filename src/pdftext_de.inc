@@ -12,4 +12,5 @@ resourcestring                                     {deutsch}
   hntClose='Programm beenden.';
   capOpenPDF='Eingescannte PDF-Dateien öffnen...';
   hntMemo='Ausgaben vom Terminal.';
+  errPDF=' ist keine PDF-Datei.';
 

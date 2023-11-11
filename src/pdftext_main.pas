@@ -43,8 +43,8 @@ type
     procedure PDFAddText(fn: string);                {Process one PDF file}
   end;
 
-{.$I pdftext_de.inc}
-{$I pdftext_en.inc}
+{$I pdftext_de.inc}
+{ $I pdftext_en.inc}
 
 var
   Form1: TForm1;
@@ -75,33 +75,37 @@ begin
   Memo1.Hint:=hntMemo;
 end;
 
-procedure TForm1.PDFAddText(fn: string);             {Process one PDF file, TProcess}
+procedure TForm1.PDFAddText(fn: string);             {Process one PDF file}
 var
   pdftxt: TProcess;
   outlist: TStringList;
   i: integer;
 
 begin
-  Memo1.Lines.Add(fn);
-  Memo1.Lines.Add('');
-  outlist:=TStringlist.Create;
-  pdftxt:=TProcess.Create(nil);
-  Screen.Cursor:=crHourGlass;
-  Application.ProcessMessages;
-  try
-    pdftxt.Executable:=app;
-    pdftxt.Parameters.Add(paralang);
-    pdftxt.Parameters.Add(Sprache);
-    pdftxt.Parameters.Add(fn);
-    pdftxt.Options:=pdftxt.Options+[poWaitOnExit, poUsePipes];
-    pdftxt.Execute;
-    outlist.LoadFromStream(pdftxt.Output);
-    for i:=0 to outlist.Count-1 do
-      Memo1.Lines.Add(outlist[i]);
-  finally
-    outlist.Free;
-    pdftxt.Free;
-    Screen.Cursor:=crDefault;
+  if Lowercase(ExtractFileExt(fn))=pdfext then begin
+    Memo1.Lines.Add(fn);
+    Memo1.Lines.Add('');
+    outlist:=TStringList.Create;
+    pdftxt:=TProcess.Create(nil);
+    Application.ProcessMessages;
+    try
+      pdftxt.Executable:=app;
+      pdftxt.Parameters.Add(paralang);
+      pdftxt.Parameters.Add(Sprache);
+      pdftxt.Parameters.Add(fn);
+      pdftxt.Options:=pdftxt.Options+[poWaitOnExit, poUsePipes];
+      pdftxt.Execute;
+      outlist.LoadFromStream(pdftxt.Output);         {Get commandline output}
+      for i:=0 to outlist.Count-1 do                 {Append to log}
+        Memo1.Lines.Add(outlist[i]);
+      Memo1.Lines.Add(separ);
+      Memo1.Lines.Add('');
+    finally
+      pdftxt.Free;
+      outlist.Free;
+    end;
+  end else begin
+    Memo1.Lines.Add(ExtractFileName(fn)+errPDF);
   end;
 end;
 
@@ -113,16 +117,15 @@ var
 begin
   OpenDialog1.Title:=capOpenPDF;                     {Option ofAllowMultiSelect must be set}
   if OpenDialog1.Execute then begin
+    Screen.Cursor:=crHourGlass;
     btnClose.Enabled:=false;
+    Memo1.Lines.Clear;                               {Empty log output}
     try
-      Memo1.Lines.Clear;                             {Empty protocol output}
-      for i:=0 to OpenDialog1.Files.Count-1 do begin
+      for i:=0 to OpenDialog1.Files.Count-1 do
         PDFAddText(Opendialog1.Files[i]);
-        Memo1.Lines.Add(separ);
-      end;
-      Memo1.Lines.Add('');
     finally
       btnClose.Enabled:=true;
+      Screen.Cursor:=crDefault;
     end;
   end;
 end;
@@ -131,28 +134,17 @@ end;
 procedure TForm1.FormDropFiles(Sender: TObject; const FileNames: array of string);
 var
   i: integer;
-  pdflist: TStringList;
 
 begin
-  pdflist:=TStringList.Create;
+  Screen.Cursor:=crHourGlass;
+  btnClose.Enabled:=false;
+  Memo1.Lines.Clear;
+  Application.BringToFront;                          {Set focus to this program}
   try
-    for i:=0 to high(FileNames) do begin
-      if Lowercase(ExtractFileExt(FileNames[i]))=pdfext then begin {Select only PDF files}
-        pdflist.Add(FileNames[i]);
-      end;
-    end;
-    Memo1.Lines.Clear;
-    if pdflist.Count>0 then begin
-      btnClose.Enabled:=false;
-      for i:=0 to pdflist.Count-1 do begin
-        PDFAddText(pdflist[i]);
-        Memo1.Lines.Add(separ);
-      end;
-    end;
-    Memo1.Lines.Add('');
+    for i:=0 to high(FileNames) do
+      PDFAddText(FileNames[i]);
   finally
     btnClose.Enabled:=true;
-    pdflist.Free;
     Screen.Cursor:=crDefault;
   end;
 end;

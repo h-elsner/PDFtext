@@ -12,4 +12,5 @@ resourcestring                                     {english}
   hntClose='Close the application.';
   capOpenPDF='Open scanned PDF files ...';
   hntMemo='Terminal output.';
+  errPDF=' is not a PDF file.';
 
