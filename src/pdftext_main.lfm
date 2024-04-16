@@ -13,7 +13,7 @@ object Form1: TForm1
   OnDropFiles = FormDropFiles
   Position = poDefaultPosOnly
   ShowHint = True
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '3.0.0.3'
   object btnAddTxt: TBitBtn
     Left = 16
     Height = 60
@@ -49,22 +49,22 @@ object Form1: TForm1
     TabOrder = 2
   end
   object Memo1: TMemo
-    Left = 16
+    Left = 19
     Height = 254
-    Top = 92
+    Top = 88
     Width = 585
     Anchors = [akTop, akLeft, akRight, akBottom]
     Font.Height = -13
-    Font.Name = 'Liberation Mono'
+    Font.Name = 'Courier New'
     Font.Orientation = 10
     Lines.Strings = (
       'Memo1'
     )
-    OnMouseWheelDown = Memo1MouseWheelDown
-    OnMouseWheelUp = Memo1MouseWheelUp
     ParentFont = False
     ScrollBars = ssBoth
     TabOrder = 3
+    OnMouseWheelDown = Memo1MouseWheelDown
+    OnMouseWheelUp = Memo1MouseWheelUp
   end
   object ImageList1: TImageList
     Left = 181

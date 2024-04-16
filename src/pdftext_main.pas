@@ -15,7 +15,8 @@ unit pdftext_main;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Buttons, StdCtrls, Process, Types;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, Buttons, StdCtrls,
+  ComCtrls, Process, Types;
 
 type
 
@@ -40,7 +41,7 @@ type
   private
 
   public
-    procedure PDFAddText(fn: string);                {Process one PDF file}
+    procedure PDFToText(fn: string);                {Process one PDF file}
   end;
 
 {$I pdftext_de.inc}
@@ -75,7 +76,7 @@ begin
   Memo1.Hint:=hntMemo;
 end;
 
-procedure TForm1.PDFAddText(fn: string);             {Process one PDF file}
+procedure TForm1.PDFToText(fn: string);             {Process one PDF file}
 var
   pdftxt: TProcess;
   outlist: TStringList;
@@ -122,7 +123,7 @@ begin
     Memo1.Lines.Clear;                               {Empty log output}
     try
       for i:=0 to OpenDialog1.Files.Count-1 do
-        PDFAddText(Opendialog1.Files[i]);
+        PDFToText(Opendialog1.Files[i]);
     finally
       btnClose.Enabled:=true;
       Screen.Cursor:=crDefault;
@@ -142,7 +143,7 @@ begin
   Application.BringToFront;                          {Set focus to this program}
   try
     for i:=0 to high(FileNames) do
-      PDFAddText(FileNames[i]);
+      PDFToText(FileNames[i]);
   finally
     btnClose.Enabled:=true;
     Screen.Cursor:=crDefault;
